@@ -2,25 +2,38 @@ package ticket;
 
 public class HappyTicket {
 
-    private final int n;
-
     public HappyTicket() {
-        this.n = 6;
     }
 
-    public HappyTicket(int n) {
-        this.n = n;
+    public void calc(int n, int p, int x, long[] arr) {
+        p++;
+        for (int i = 0; i <= 9; i++) {
+            int sum = x + i;
+            if (p < n) {
+                calc(n, p, sum, arr);
+            } else {
+                arr[sum]++;
+            }
+        }
     }
 
-    public int getTicketCount() {
-        if (n == 6) {
-            return getTicket6Count();
+    public long getTicketCount(int n) {
+        int len = 9 * n + 1;
+        long[] arr = new long[len];
+        for (int i = 0; i < len; i++) {
+            arr[i] = 0;
+        }
+        calc(n, 0, 0, arr);
+        long count = 0;
+        for (int i = 0; i < len; i++) {
+            long r = arr[i];
+            count += r*r;
         }
 
-        return 0;
+        return count;
     }
 
-    private int getTicket6Count() {
+    public int getTicket6Count() {
         int count = 0;
         for (int a = 0; a <= 9; a++) {
             for (int b = 0; b <= 9; b++) {
