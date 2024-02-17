@@ -1,27 +1,30 @@
 import algebra.Exp;
 import algebra.Fibb;
 import algebra.SimpleNumbers;
-import test.FileTestTicket;
-import ticket.HappyTicket;
+import test.FileTest;
 
 public class Main {
 
     public static void main(String[] args) {
-//        HappyTicket happyTicket = new HappyTicket();
-//        System.out.println(happyTicket.getTicket6Count());
-//        System.out.println(happyTicket.getTicketCount(3));
-//        FileTestTicket.checkAllTestFromFolder("/Downloads/A01_Счастливые_билеты-1801-057a77/1.Tickets");
-//        FileTestTicket.in.forEach((test, value) -> {
-//
-//            var result = happyTicket.getTicketCount(value);
-//            var printResult = test +" "+ (result == FileTestTicket.out.get(test) ? "true" : "false");
-//            System.out.print(printResult);
-//            System.out.println(" " + result);
-//        });
-        System.out.println(Exp.getExpOn(10, 5));
+        System.out.println(Exp.getExpIt(2, 12));
+        System.out.println(Exp.getExpOn(2, 12));
+        System.out.println(Exp.getExpDiv2(2, 12));
+
         System.out.println(Fibb.getFibbRec(10));
         System.out.println(Fibb.getFibbIter(10));
-        System.out.println(SimpleNumbers.getSimpleNum(11));
+        System.out.println(Fibb.getFibMatrix(10));
+        System.out.println(Fibb.getFibGold(10));
 
+        System.out.println(SimpleNumbers.getSimpleNum(11));
+        System.out.println(SimpleNumbers.getSimpleNum2(11));
+        System.out.println(SimpleNumbers.getSimpleNumSito(11));
+
+        FileTest.checkAllTestFromFolder("C:/Users/User/Downloads/5.Primes-19350-906510/5.Primes");
+        FileTest.in.forEach((test, value) -> {
+            var result = SimpleNumbers.getSimpleNumSito(value.intValue());
+            var printResult = test + " " + (result == (FileTest.out.get(test)) ? "true" : "false");
+            System.out.println(printResult);
+        });
     }
 }
+
