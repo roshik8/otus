@@ -2,15 +2,17 @@ package test;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Scanner;
 import java.util.stream.Stream;
 
-public class FileTestTicket {
+public class FileTest {
 
-    public static Map<String, Integer> in = new HashMap<>();
+    public static Map<String, Long> in = new HashMap<>();
     public static Map<String, Long> out = new HashMap<>();
 
     public static void checkAllTestFromFolder(String pathName) {
@@ -24,7 +26,7 @@ public class FileTestTicket {
                     if (file.getName().contains("in")) {
                         var testName = filename.substring(0, filename.indexOf(".in"));
                         try {
-                            in.put(testName, Integer.parseInt(Files.readString(file.toPath()).trim()));
+                            in.put(testName, Long.parseLong(Files.readString(file.toPath()).trim()));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -32,7 +34,7 @@ public class FileTestTicket {
                         var testName = filename.substring(0, filename.indexOf(".out"));
 
                         try {
-                            out.put(testName, Long.parseLong(Files.readString(file.toPath()).trim()));
+                        out.put(testName, Long.parseLong(Files.readString(file.toPath())));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
