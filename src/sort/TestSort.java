@@ -23,6 +23,14 @@ public class TestSort {
         start = System.currentTimeMillis();
         shellSort();
         printSort("Сортировка Шелл", start, n);
+        init(n);
+        start = System.currentTimeMillis();
+        selectionSort();
+        printSort("Сортировка выбором", start, n);
+        init(n);
+        start = System.currentTimeMillis();
+        heapSort();
+        printSort("Сортировка выбором из кучи", start, n);
     }
 
     private static void printSort(String nameSort, long start, int n) {
@@ -41,6 +49,48 @@ public class TestSort {
         for (int i = 0; i < array.length; i++) {
             array[i] = random.nextInt(n * 100);
         }
+    }
+
+    public static void heapSort() {
+        int n = array.length;
+        for (int h = n / 2 - 1; h >= 0; h--) {
+            heap(h, n);
+        }
+        for (int j = n - 1; j > 0; j--) {
+            swap(0, j);
+            heap(0, j);
+        }
+    }
+
+    private static void heap(int root, int size) {
+        int p = root;
+        int l = 2 * p + 1;
+        int r = 2 * p + 2;
+        if (l < size && more(l, p)) {
+            p = l;
+        }
+        if (r < size && more(r, p)) {
+            p = r;
+        }
+        if (p == root) return;
+        swap(root, p);
+        heap(p, size);
+    }
+
+    public static void selectionSort() {
+        for (int j = array.length - 1; j > 0; j--) {
+            swap(findMax(j), j);
+        }
+    }
+
+    private static int findMax(int j) {
+        int max = 0;
+        for (int i = 1; i <= j; i++) {
+            if (more(i, max)) {
+                max = i;
+            }
+        }
+        return max;
     }
 
     public static void bubleSortBetter() {
