@@ -5,3 +5,5 @@
 BubbleSort|   0 |    0 |  204|  19774|  ~
 InsertionSort|   0 |    0 |     16 |  691|  73592
 ShellSort|   0 |    0 |   0|  15|  172
+SelectionSort|   0 |    0 |    31 |   2953 |  308554
+HeapSort|   0 |    0 |     0 |     16 |  159
