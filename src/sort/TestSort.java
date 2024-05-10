@@ -10,7 +10,7 @@ public class TestSort {
     private static int cnt;
 
     public static void main(String[] args) {
-        int n = 100;
+        int n = 10;
         init(n);
         long start = System.currentTimeMillis();
         bubleSort();
@@ -31,6 +31,10 @@ public class TestSort {
         start = System.currentTimeMillis();
         heapSort();
         printSort("Сортировка выбором из кучи", start, n);
+        quickSort();
+        printSort("Быстрая сортировка", start, n);
+        mergeSort();
+        printSort("Сортировка слиянием", start, n);
     }
 
     private static void printSort(String nameSort, long start, int n) {
@@ -49,6 +53,63 @@ public class TestSort {
         for (int i = 0; i < array.length; i++) {
             array[i] = random.nextInt(n * 100);
         }
+    }
+
+    private static void mergeSort() {
+        mergeSortDiv(0, array.length - 1);
+    }
+
+    private static void mergeSortDiv(int l, int r) {
+        if (l >= r) return;
+        int m = (l + r) / 2;
+        mergeSortDiv(l, m);
+        mergeSortDiv(m + 1, r);
+        merge(l, m, r);
+    }
+
+    private static void merge(int l, int m, int r) {
+        int[] temp = new int[r - l + 1];
+        int a = l;
+        int b = m + 1;
+        int t = 0;
+        while (a <= m && b <= r) {
+            if (more(a, b)) {
+                temp[t++] = array[b++];
+            } else {
+                temp[t++] = array[a++];
+            }
+        }
+        while (a <= m) {
+            temp[t++] = array[a++];
+        }
+        while (b <= r) {
+            temp[t++] = array[b++];
+        }
+
+        for (int i = l; i <= r; i++) {
+            array[i] = temp[i - l];
+        }
+    }
+
+    private static void quickSort() {
+        quick(0, array.length - 1);
+    }
+
+    private static void quick(int l, int r) {
+        if (l >= r) return;
+        int m = split(l, r);
+        quick(l, m - 1);
+        quick(m + 1, r);
+    }
+
+    private static int split(int l, int r) {
+        int p = array[r];
+        int m = l - 1;
+        for (int j = l; j <= r; j++) {
+            if (moreEq(p, array[j]))
+                swap(++m, j);
+        }
+        return m;
     }
 
     public static void heapSort() {
@@ -144,6 +205,11 @@ public class TestSort {
     private static boolean more(int i, int j) {
         cntMore++;
         return array[i] > array[j];
+    }
+
+    private static boolean moreEq(int i, int j) {
+        cntMore++;
+        return i >= j;
     }
 
     private static void swap(int i, int j) {
