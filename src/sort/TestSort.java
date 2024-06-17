@@ -1,6 +1,5 @@
 package sort;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class TestSort {
@@ -8,9 +7,10 @@ public class TestSort {
     private static int[] array;
     private static int cntMore;
     private static int cnt;
+    private static int randomValue = 1000;
 
     public static void main(String[] args) {
-        int n = 10;
+        int n = 10000000;
         init(n);
         long start = System.currentTimeMillis();
         bubleSort();
@@ -31,10 +31,26 @@ public class TestSort {
         start = System.currentTimeMillis();
         heapSort();
         printSort("Сортировка выбором из кучи", start, n);
+        init(n);
+        start = System.currentTimeMillis();
         quickSort();
         printSort("Быстрая сортировка", start, n);
+        init(n);
+        start = System.currentTimeMillis();
         mergeSort();
         printSort("Сортировка слиянием", start, n);
+        init(n);
+        start = System.currentTimeMillis();
+        countSort();
+        printSort("Сортировка подсчетом", start, n);
+        init(n);
+        start = System.currentTimeMillis();
+        radixSort();
+        printSort("Сортировка поразрядная", start, n);
+        init(n);
+        start = System.currentTimeMillis();
+        bucketSort();
+        printSort("Сортировка ведрами", start, n);
     }
 
     private static void printSort(String nameSort, long start, int n) {
@@ -51,7 +67,7 @@ public class TestSort {
         Random random = new Random();
         array = new int[n];
         for (int i = 0; i < array.length; i++) {
-            array[i] = random.nextInt(n * 100);
+            array[i] = random.nextInt(randomValue);
         }
     }
 
@@ -200,6 +216,90 @@ public class TestSort {
 
             }
         }
+    }
+
+    public static void countSort() {
+        int[] arrayCount = new int[randomValue];
+        for (int k : array) {
+            arrayCount[k] = arrayCount[k] + 1;
+        }
+
+        int index = 0;
+        for (int i = 0; i < arrayCount.length; i++) {
+            for (int j = 0; j < arrayCount[i]; j++) {
+                array[index] = i;
+
+                index++;
+            }
+        }
+    }
+
+    public static void radixSort() {
+        int digitCount = String.valueOf(max()).length();
+        int place = 1;
+        while (digitCount-- > 0) {
+            countSort(place);
+            place *= 10;
+        }
+    }
+
+    private static void countSort(int place) {
+        int range = 10;
+        int[] frequency = new int[range];
+        int[] sortedValues = new int[array.length];
+
+        for (int number : array) {
+            int digit = (number / place) % range;
+            frequency[digit]++;
+        }
+
+        for (int i = 1; i < range; i++) {
+            frequency[i] += frequency[i - 1];
+        }
+
+        for (int i = array.length - 1; i >= 0; i--) {
+            int digit = (array[i] / place) % range;
+            sortedValues[frequency[digit] - 1] = array[i];
+            frequency[digit]--;
+        }
+
+        System.arraycopy(sortedValues, 0, array, 0, array.length);
+    }
+
+    public static void bucketSort() {
+        int max = max() + 1;
+        List[] bucket = new List[array.length];
+        for (int a : array) {
+            int nr = (int) ((long) a * (long) array.length / (long) max);
+            bucket[nr] = new List(a, bucket[nr]);
+            List item = bucket[nr];
+            while (item.next != null) {
+                if (item.value < item.next.value) {
+                    break;
+                }
+                int x = item.value;
+                item.value = item.next.value;
+                item.next.value = x;
+                item = item.next;
+            }
+        }
+        int j = 0;
+        for (List item : bucket) {
+            while (item != null) {
+                array[j++] = item.value;
+                item = item.next;
+            }
+        }
+    }
+
+    private static int max() {
+        int max = array[0];
+        for (int a : array) {
+            if (a > max) {
+                max = a;
+            }
+        }
+        return max;
     }
 
     private static boolean more(int i, int j) {
