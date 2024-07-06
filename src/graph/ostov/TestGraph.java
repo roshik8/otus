@@ -1,5 +1,7 @@
 package graph.ostov;
 
+import java.util.Arrays;
+
 public class TestGraph {
     public static void main(String[] args) {
         //матрица смежности
@@ -20,6 +22,24 @@ public class TestGraph {
             System.out.println((edge.getBegin()+1) + "-" + (edge.getEnd()+1) + ": " + edge.getWeight());
         }
         System.out.println("Сумма весов: " + graph.getWeightMin());
+
+
+        //матрица смежности
+        int[][] dMatrix = new int[][] {
+                      //1 2 3 4 5 6
+                /*1*/  {0,7,9,0,0,14},
+                /*2*/  {7,0,10,15,0,0},
+                /*3*/  {9,10,0,11,0,2},
+                /*4*/  {0,15,11,0,6,0},
+                /*5*/  {0,0,0,6,0,9},
+                /*6*/  {14,0,2,0,9,0}
+        };
+        Graph graph2 = new Graph(dMatrix);
+        for (int i =0; i < dMatrix.length;i++ ) {
+            int[] ways = graph2.deikstra(i);
+            System.out.println("Минимальные пути из вершины " + (i + 1) + ": " +Arrays.toString(ways));
+
+        }
 
     }
 }

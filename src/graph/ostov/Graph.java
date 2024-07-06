@@ -47,6 +47,31 @@ public class Graph {
         }
     }
 
+    public int[] deikstra(int vertex) {
+        int[] ways = new int[size];
+        boolean[] visited = new boolean[size];
+        for (int i = 0; i < size; i++) {
+            ways[i] = Integer.MAX_VALUE;
+        }
+        ways[vertex] = 0;
+        int min;
+        for (int i = 0; i < size; i++) {
+            min = getMin(ways, visited);
+            visited[min] = true;
+            for (int j = 0; j < size; j++) {
+                if (visited[j]) continue;
+                if (matrix[min][j] == 0) continue;
+                int weight = ways[min] + matrix[min][j];
+                if (weight < ways[j]) {
+                    ways[j] = weight;
+                }
+            }
+
+        }
+        return ways;
+
+    }
+
     public Deque<Edge> getEdges() {
         return edges;
     }
@@ -54,6 +79,20 @@ public class Graph {
     public int getWeightMin() {
         return weightMin;
     }
+
+    private int getMin(int[] mas, boolean[] visited) {
+        int min = -1;
+        for (int i = 0; i < mas.length; i++) {
+            if (visited[i]) continue;
+            if (min == -1) {
+                min = i;
+            } else if (mas[i] < mas[min]) {
+                min = i;
+            }
+        }
+        return min;
+    }
+
     static class Edge {
         private final int begin;
         private final int end;
