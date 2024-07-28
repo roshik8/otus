@@ -3,6 +3,7 @@ package rle;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Rle {
@@ -32,16 +33,17 @@ public class Rle {
     public static String rleDecode(String text) {
         StringBuilder result = new StringBuilder();
         char[] charArray = text.toCharArray();
-        for (int i = 0; i < charArray.length; i++) {
-            char s = charArray[i];
-            if (!Character.isDigit(s)) {
-                result.append(s);
+        int count = 0;
+        for (char c : charArray) {
+            if (Character.isDigit(c)) {
+                count = 10 * count + Character.getNumericValue(c);
             } else {
-                int num = Integer.parseInt(String.valueOf(s));
-                result.append(String.valueOf(charArray[i + 1]).repeat(Math.max(0, num - 1)));
+                result.append(String.join("", Collections.nCopies(count, String.valueOf(c))));
+                count = 0;
             }
         }
         return result.toString();
+
     }
 
     public static void rleEncodeFile(String fileName) throws IOException {
@@ -67,8 +69,9 @@ public class Rle {
     }
 
     public static void main(String[] args) throws IOException {
-        rleEncodeFile("C:/Users/User/IdeaProjects/otus/src/rle/test.txt");
-        String test = "aabccaabaad";
+        rleEncodeFile("C:/Users/rokhann/IdeaProjects/otus/src/rle/test.txt");
+        System.out.println("cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc".length());
+        String test = "aabccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccaabaad";
         System.out.println(test);
         System.out.println(rleEncode(test));
         System.out.println(rleDecode("2a1b2c2a1b2a1d"));
